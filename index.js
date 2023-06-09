@@ -4,7 +4,13 @@ const createStore = redux.createStore
 const bindActionCreators = redux.bindActionCreators
 //combine reducers
 const combineReducers = redux.combineReducers
+//applymiddleware - allow to use middleware
+const applyMiddleware = redux.applyMiddleware
+//middleware-logger
+const reduxLogger = require("redux-logger")
+const logger = reduxLogger.createLogger()
 
+//action constants/variables
 const CAKED_ORDERED = "CAKED_ORDERED";
 const CAKED_RESTOKED = "CAKED_RESTOKED";
 
@@ -46,7 +52,7 @@ function restockIceCream(qty = 1) {
   }
 }
 
-//state - state in redux always represent in object contains the property value of state
+//#STATES- state in redux always represent in object contains the property value of state
 const initialCakeState = {
   numOfCakes: 10,
 //   sometimes more properties are added
@@ -90,17 +96,17 @@ const iceCreamReducer = (state = initialIceCreamState, action) => {
   }
 };
 
-//combineReducers
+//#combineReducers
 const rootReducer = combineReducers({
   cake: cakeReducer,
   iceCream: iceCreamReducer
 })
 
 //#3 STORE
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(logger))
 console.log("initial state", store.getState())
 
-const unsubscribe = store.subscribe(() => console.log('updated state', store.getState()))
+const unsubscribe = store.subscribe(() => {})
 
 
 //dispatch recieves an action as a parameter
